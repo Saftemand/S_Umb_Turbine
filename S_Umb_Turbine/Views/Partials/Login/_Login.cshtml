@@ -1,0 +1,40 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<S_Umb_Turbine.Model.LoginModel>
+
+@using System.Web.Mvc.Html
+@using ClientDependency.Core.Mvc
+@using Umbraco.Web
+@using Umbraco.Web.Models
+
+@{
+    var loginModel = new LoginModel();
+    
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+}
+
+@* NOTE: This RenderJsHere code should be put on your main template page where the rest of your script tags are placed *@
+@Html.RenderJsHere()
+
+@if (!Umbraco.MemberIsLoggedOn())
+{
+    using (Html.BeginUmbracoForm("SubmitLogin", "Login", System.Web.Mvc.FormMethod.Post, new { id = "login", @class="center-horizontal login-form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="Username">Brugernavn</label>
+            <input class="form-control" data-val="true" data-val-required="Brugernavnet skal udfyldes" id="Username" name="Username" placeholder="Username" type="text" value="">
+        </div>
+        <div class="form-group">
+            <label for="Password">Kodeord</label>
+            <input class="form-control" data-val="true" data-val-required="Kodeorder skal udfyldes" id="Password" name="Password" placeholder="Kodeord" type="password">
+        </div>
+
+        @Html.Hidden("returnUrl",HttpContext.Current.Request.Url.AbsolutePath)
+
+        @Html.ValidationSummary()
+        <button type="submit" name="login" class="btn-primary btn-lg btn-block btn-login">Login</button>
+    }
+}

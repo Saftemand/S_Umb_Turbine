@@ -1,0 +1,48 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<List<NavigationListItem>>
+@using S_Umb_Turbine.Model
+
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="/">Turbine Booking</a>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+        <ul class="navbar-nav">
+            @*@RenderChildItems(Model)*@
+            <li class="nav-item dropdown">
+                <a class="nav-link nav-link-profile dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @Html.AntiForgeryToken()
+                    @{
+                        var myUser = System.Web.Security.Membership.GetUser();
+                        if (myUser != null)
+                        {
+                            <p><strong>Du er logget ind som: </strong> <span>@myUser.UserName</span></p>
+                        }
+                    }
+                </a>
+                <div class="dropdown-menu dropdown-menu-logout" aria-labelledby="navbarDropdownMenuLink">
+                    @using (Html.BeginUmbracoForm("SubmitLogout", "Login"))
+                    {
+                        <a id="logout-button" class="dropdown-item" href="#">Log ud</a>
+                    }   
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+@helper RenderChildItems(List<NavigationListItem> listItems)
+{
+if (listItems != null)
+{
+    foreach (var item in listItems)
+    {
+        <li class="nav-item @(Umbraco.AssignedContentItem.Url == item.Link.Url ? "active" : null)">
+        @if (item.Link != null)
+        {
+            <a class="nav-link" href="@item.Link.Url">@item.Link.Text</a>
+        }
+        </li>
+        }
+    }
+}

@@ -1,0 +1,8 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+}
+
+<div class="change-password-box">
+    @{ Html.RenderAction("RenderChangePassword", "Account");}
+</div>

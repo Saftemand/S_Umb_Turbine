@@ -1,0 +1,72 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var currentPageId = UmbracoContext.Current.PageId;
+    var currentPage = Umbraco.TypedContent(currentPageId);
+    List<IPublishedContent> conferenceRooms = currentPage.Children.Where(x => x.DocumentTypeAlias == "conferenceRoom").ToList();
+
+    MembershipUser currentMember = Membership.GetUser();
+
+    DateTime initialStartTime = DateTime.Now.AddMinutes(15 - (DateTime.Now.Minute % 15));
+    DateTime initialEndTime = initialStartTime;
+    initialEndTime.AddMinutes(15);
+}
+
+<div class="modal fade" id="create-booking-modal" tabindex="-1" role="dialog" aria-labelledby="create-booking-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="create-booking-modal-label">Book et møde</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="create-booking-form" method="post" action="~/api/BookingHandler.ashx?action=create">
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="create-conference-room" class="col-md-4 col-form-label">Mødelokale</label>
+                        <div class="col-md-8">
+                            <div class="list-group">
+                                @foreach (IPublishedContent conferenceRoom in conferenceRooms)
+                                {
+                                    <a class="list-group-item list-group-item-action list-group-item-room-create" data-conference-room-id="@conferenceRoom.Id">@conferenceRoom.Name</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="create-title" class="col-sm-4 col-form-label">Titel</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="create-title" name="create-title" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="create-start-date" class="col-4 col-form-label">Starttidspunkt</label>
+                        <div class='col-8 input-group date datetimepicker'>
+                            <input id="create-start-date" name="create-start-date" readonly type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="create-end-date" class="col-4 col-form-label">Sluttidspunkt</label>
+                        <div class='col-8 input-group date datetimepicker'>
+                            <input id="create-end-date" name="create-end-date" readonly type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="create-member-id" name="create-member-id" value="@currentMember.ProviderUserKey" />
+                <input type="hidden" id="create-conference-room" name="create-conference-room" value="" />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuller</button>
+                    <button type="submit" id="create-booking" class="btn btn-primary">Opret møde</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

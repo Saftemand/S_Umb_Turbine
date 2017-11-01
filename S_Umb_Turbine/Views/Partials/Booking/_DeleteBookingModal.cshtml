@@ -1,0 +1,38 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var currentPageId = UmbracoContext.Current.PageId;
+    var currentPage = Umbraco.TypedContent(currentPageId);
+    List<IPublishedContent> conferenceRooms = currentPage.Children.Where(x => x.DocumentTypeAlias == "conferenceRoom").ToList();
+
+    MembershipUser currentMember = Membership.GetUser();
+
+    DateTime initialStartTime = DateTime.Now.AddMinutes(15 - (DateTime.Now.Minute % 15));
+    DateTime initialEndTime = initialStartTime;
+    initialEndTime.AddMinutes(15);
+}
+
+<div class="modal fade" id="delete-view-booking-modal" tabindex="-1" role="dialog" aria-labelledby="delete-booking-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete-booking-modal-label">Slet Møde</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="delete-booking-form" method="post" action="~/api/BookingHandler.ashx?action=delete">
+                <div class="modal-body">
+                    <p>Er du sikker på at du vil slette dette møde?</p>
+                </div>
+                <input type="hidden" id="delete-booking-id" name="delete-booking-id" value="" />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuller</button>
+                    <button type="submit" id="delete-booking" class="btn btn-primary">Slet Møde</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

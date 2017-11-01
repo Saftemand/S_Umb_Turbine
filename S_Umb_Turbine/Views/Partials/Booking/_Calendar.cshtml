@@ -1,0 +1,68 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var currentPageId = UmbracoContext.Current.PageId;
+    var currentPage = Umbraco.TypedContent(currentPageId);
+    List<IPublishedContent> conferenceRooms = currentPage.Children.Where(x => x.DocumentTypeAlias == "conferenceRoom").ToList();
+
+    MembershipUser currentMember = Membership.GetUser();
+}
+
+
+
+<div class="filter-container">
+    <div class="filter-panel center-horizontal">
+        <div class="filter-content">
+            <form id="overview-calendar-form" action="~/api/BookingHandler.ashx?action=findBookingsByConferenceRoomOrMember">
+                <h2>Filtrering</h2>
+                <div class="form-group facet-group">
+                    <div class="list-group">
+                        @{
+                            bool first = true;
+                            foreach (IPublishedContent conferenceRoom in conferenceRooms)
+                            {
+                                <a class="list-group-item list-group-item-action list-group-item-room-filter @(first ? "active" : null)" data-conference-room-id="@conferenceRoom.Id">@conferenceRoom.Name</a>
+                                first = false;
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group facet-group">
+                    <div class="list-group">
+                        <a id="list-group-item-show-bookings-only" class="list-group-item list-group-item-action">Vis kun mine møder</a>
+                    </div>
+                </div>
+                <input type="hidden" id="overview-member-id" name="overview-member-id" value="@currentMember.ProviderUserKey" />
+                <input type="hidden" id="overview-conference-room" name="overview-conference-room" value="@conferenceRooms.First().Id" />
+                <input type="hidden" id="overview-show-only-current-bookings" name="overview-show-only-current-bookings" value="" />
+            </form>
+            <br />
+            <hr class="filter-panel-separator" />
+            <br />
+            <h2>Handlinger</h2>
+            <div class="form-group facet-group">
+                    <button id="booking-create-modal" type="button" class="btn btn-success btn-create" data-toggle="modal" data-target="#exampleModal">
+                        Opret Møde
+                    </button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="calendar-container">
+    <div id='calendar' class="calendar center-horizontal"></div>
+</div>
+
+
+
+
+<!-- Modals -->
+@{ Html.RenderAction("RenderCreateBookingModal", "Booking"); }
+
+@{ Html.RenderAction("RenderUpdateBookingModal", "Booking"); }
+
+@{ Html.RenderAction("RenderDetailedViewBookingModal", "Booking"); }
+
+@{ Html.RenderAction("RenderDeleteBookingModal", "Booking"); }
+

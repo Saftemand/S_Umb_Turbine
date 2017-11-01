@@ -1,0 +1,73 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var currentPageId = UmbracoContext.Current.PageId;
+    var currentPage = Umbraco.TypedContent(currentPageId);
+    List<IPublishedContent> conferenceRooms = currentPage.Children.Where(x => x.DocumentTypeAlias == "conferenceRoom").ToList();
+
+    MembershipUser currentMember = Membership.GetUser();
+
+    DateTime initialStartTime = DateTime.Now.AddMinutes(15 - (DateTime.Now.Minute % 15));
+    DateTime initialEndTime = initialStartTime;
+    initialEndTime.AddMinutes(15);
+}
+
+<div class="modal fade" id="detailed-view-booking-modal" tabindex="-1" role="dialog" aria-labelledby="detaile-booking-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detail-booking-modal-label">Booking Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-group row">
+                    <label for="detail-title" class="col-sm-4 col-form-label">Title</label>
+                    <div class="col-sm-8">
+                        <textarea type="text" readonly class="form-control" id="detail-title" name="detail-title" placeholder=""></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="detail-conference-room" class="col-sm-4 col-form-label">Conference Room</label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control" id="detail-conference-room" name="detail-conference-room" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="detail-booked-by" class="col-md-4 col-form-label">Booked by</label>
+                    <div class="col-sm-8">
+                        <input type="text" readonly class="form-control" id="detail-booked-by" name="detail-booked-by" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="detail-start-date" class="col-4 col-form-label">Meeting starts at</label>
+                    <div class='col-8 input-group date datetimepicker-readonly'>
+                        <input id="detail-start-date" name="detail-start-date" readonly type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="detail-end-date" class="col-4 col-form-label">Meeting ends at</label>
+                    <div class='col-8 input-group date datetimepicker-readonly'>
+                        <input id="detail-end-date" name="detail-end-date" readonly type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

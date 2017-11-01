@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S_Umb_Turbine", "S_Umb_Turbine\S_Umb_Turbine.csproj", "{93DB2A8C-11F9-4429-B6B7-542DEE912216}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "Util\Util.csproj", "{1BDA540C-CD81-4AB6-8EF5-2CF3A414393E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93DB2A8C-11F9-4429-B6B7-542DEE912216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93DB2A8C-11F9-4429-B6B7-542DEE912216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93DB2A8C-11F9-4429-B6B7-542DEE912216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93DB2A8C-11F9-4429-B6B7-542DEE912216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BDA540C-CD81-4AB6-8EF5-2CF3A414393E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BDA540C-CD81-4AB6-8EF5-2CF3A414393E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BDA540C-CD81-4AB6-8EF5-2CF3A414393E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BDA540C-CD81-4AB6-8EF5-2CF3A414393E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,78 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+    var currentPageId = UmbracoContext.Current.PageId;
+    var currentPage = Umbraco.TypedContent(currentPageId);
+    List<IPublishedContent> conferenceRooms = currentPage.Children.Where(x => x.DocumentTypeAlias == "conferenceRoom").ToList();
+
+    MembershipUser currentMember = Membership.GetUser();
+
+    DateTime initialStartTime = DateTime.Now.AddMinutes(15 - (DateTime.Now.Minute % 15));
+    DateTime initialEndTime = initialStartTime;
+    initialEndTime.AddMinutes(15);
+}
+
+<div class="modal fade" id="update-view-booking-modal" tabindex="-1" role="dialog" aria-labelledby="update-booking-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="update-booking-modal-label">Opdatér møde</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="update-booking-form" method="post" action="~/api/BookingHandler.ashx?action=update">
+                <div class="modal-body">
+
+                    <div class="form-group row">
+                        <label for="update-conference-room" class="col-md-4 col-form-label">Mødelokale</label>
+                        <div class="col-md-8">
+                            <div class="list-group">
+                                @foreach (IPublishedContent conferenceRoom in conferenceRooms)
+                                {
+                                    <a class="list-group-item list-group-item-action list-group-item-room-update" data-conference-room-id="@conferenceRoom.Id">@conferenceRoom.Name</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row">
+                        <label for="update-title" class="col-sm-4 col-form-label">Titel</label>
+                        <div class="col-sm-8">
+                            <textarea type="text" class="form-control" id="update-title" name="update-title" placeholder=""></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="update-start-date" class="col-4 col-form-label">Starttidspunkt</label>
+                        <div id="update-start-datetimepicker" class='col-8 input-group date datetimepicker'>
+                            <input id="update-start-date" name="update-start-date" readonly type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="update-end-date" class="col-4 col-form-label">Sluttidspunkt</label>
+                        <div id="update-end-datetimepicker" class='col-8 input-group date datetimepicker'>
+                            <input id="update-end-date" name="update-end-date" readonly type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="update-booking-id" name="update-booking-id" value="" />
+                <input type="hidden" id="update-conference-room" name="update-conference-room" value="" />
+                <div class="modal-footer">
+                    <button type="button" id="update-delete-booking" class="btn btn-danger" >Slet møde</button>
+                    <span class="modal-footer-center"></span>
+                    <button type="submit" id="update-booking" class="btn btn-success">Opdatér møde</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

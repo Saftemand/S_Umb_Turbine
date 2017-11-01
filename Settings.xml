@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationSettings>
+  <DBConnectionString>Server=MICHAEL-PC\SQLEXPRESS;User Id=S_Umb_Turbine;Password=S_Umb_Turbine;Initial Catalog=S_Umb_Turbine</DBConnectionString>
+  <Debug>true</Debug>
+</ApplicationSettings>
