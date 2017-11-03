@@ -24,15 +24,16 @@
             <form id="update-booking-form" method="post" action="~/api/BookingHandler.ashx?action=update">
                 <div class="modal-body">
 
-                    <div class="form-group row">
+                    <div id="update-conference-room-row" class="form-group row">
                         <label for="update-conference-room" class="col-md-4 col-form-label">Mødelokale</label>
                         <div class="col-md-8">
-                            <div class="list-group">
+                            <div class="list-group form-control-danger">
                                 @foreach (IPublishedContent conferenceRoom in conferenceRooms)
                                 {
                                     <a class="list-group-item list-group-item-action list-group-item-room-update" data-conference-room-id="@conferenceRoom.Id">@conferenceRoom.Name</a>
                                 }
                             </div>
+                            <div style="display:none" id="update-conference-room-feedback" class="form-control-feedback">Husk at vælge et mødelokale</div>
                         </div>
                     </div>
                     <br />
@@ -43,24 +44,25 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div id="update-start-date-row" class="form-group row">
                         <label for="update-start-date" class="col-4 col-form-label">Starttidspunkt</label>
-                        <div id="update-start-datetimepicker" class='col-8 input-group date datetimepicker'>
-                            <input id="update-start-date" name="update-start-date" readonly type='text' class="form-control" />
+                        <div class='col-8 input-group date datetimepicker'>
+                            <input id="update-start-date" name="update-start-date" readonly type='text' class="form-control date-time-picker-active" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div id="update-end-date-row" class="form-group row">
                         <label for="update-end-date" class="col-4 col-form-label">Sluttidspunkt</label>
-                        <div id="update-end-datetimepicker" class='col-8 input-group date datetimepicker'>
-                            <input id="update-end-date" name="update-end-date" readonly type='text' class="form-control" />
+                        <div class='col-8 input-group date datetimepicker'>
+                            <input id="update-end-date" name="update-end-date" readonly type='text' class="form-control date-time-picker-active" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
+                        <div style="display:none" id="update-end-date-feedback" class="form-control-feedback">sluttidspunktet skal komme efter starttidspunktet</div>
                     </div>
                 </div>
                 <input type="hidden" id="update-booking-id" name="update-booking-id" value="" />
