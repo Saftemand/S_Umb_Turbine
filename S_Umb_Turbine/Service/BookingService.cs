@@ -256,7 +256,7 @@ namespace S_Umb_Turbine.Service
                 {
                     conn.Open();
 
-                    using (SqlCommand cmd = new SqlCommand("SELECT startTime, endTime FROM [custom_booking] WHERE ConferenceRoomNodeId = @conferenceRoomNodeId AND ID != @Id AND startTime < @endTime AND @startTime < endTime", conn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT startTime, endTime FROM [custom_booking] WHERE ConferenceRoomNodeId = @conferenceRoomNodeId AND ID != @Id AND startTime <= @endTime AND @startTime <= endTime", conn))
                     {
                         cmd.Parameters.Add("@conferenceRoomNodeId", SqlDbType.NVarChar).Value = conferenceRoomNodeId;
                         cmd.Parameters.Add("@Id", SqlDbType.NVarChar).Value = meetingToUpdateId;
