@@ -94,9 +94,14 @@ namespace S_Umb_Turbine.api
             booking.StartTime = ParseDateTime(param["create-start-date"]);
             booking.EndTime = ParseDateTime(param["create-end-date"]);
 
-            if (booking.StartTime == DateTime.MinValue || booking.EndTime == DateTime.MinValue) { return "ERROR: Dates could not be parsed"; }
-
             BookingStatusViewModel status = new BookingStatusViewModel();
+
+            if (booking.StartTime == DateTime.MinValue || booking.EndTime == DateTime.MinValue) {
+                status.Status = "ERROR";
+                status.Message = "Dates could not be parsed";
+                return JsonConvert.SerializeObject(status, Formatting.Indented);
+            }
+            
             BookingViewModel viewModel = BookingService.CreateBooking(booking);
             viewModel.ClassName = "booked-by-user";
             if (viewModel != null) {
@@ -104,7 +109,7 @@ namespace S_Umb_Turbine.api
                 status.Booking = viewModel;
             } else
             {
-                status.Status = "CREATE_FAILED";
+                status.Status = "EXCEPTION";
                 status.Message = "Something went wrong during creation of booking.";
             }
             return JsonConvert.SerializeObject(status, Formatting.Indented);
@@ -120,10 +125,14 @@ namespace S_Umb_Turbine.api
 
             booking.StartTime = ParseDateTime(param["update-start-date"]);
             booking.EndTime = ParseDateTime(param["update-end-date"]);
-            
-            if (booking.StartTime == DateTime.MinValue || booking.EndTime == DateTime.MinValue) { return "ERROR: Dates could not be parsed"; }
 
             BookingStatusViewModel status = new BookingStatusViewModel();
+            if (booking.StartTime == DateTime.MinValue || booking.EndTime == DateTime.MinValue) {
+                status.Status = "ERROR";
+                status.Message = "Dates could not be parsed";
+                return JsonConvert.SerializeObject(status, Formatting.Indented);
+            }
+            
             BookingViewModel viewModel = BookingService.UpdateBooking(booking);
             viewModel.ClassName = "booked-by-user";
             if (viewModel != null)
@@ -133,7 +142,7 @@ namespace S_Umb_Turbine.api
             }
             else
             {
-                status.Status = "UPDATE_FAILED";
+                status.Status = "EXCEPTION";
                 status.Message = "Something went wrong during update of booking.";
             }
             
@@ -149,7 +158,7 @@ namespace S_Umb_Turbine.api
                 status.Message = id;
             } else
             {
-                status.Status = "DELETE_FAILED";
+                status.Status = "EXCEPTION";
                 status.Message = "Something went wrong during deletion of booking";
             }
             return JsonConvert.SerializeObject(status, Formatting.Indented);

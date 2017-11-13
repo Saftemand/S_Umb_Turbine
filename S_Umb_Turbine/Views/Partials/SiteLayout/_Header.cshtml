@@ -21,6 +21,7 @@
                     }
                 </a>
                 <div class="dropdown-menu dropdown-menu-logout" aria-labelledby="navbarDropdownMenuLink">
+                    <a id="logout-button" class="dropdown-item" href="/profil">Skift kodeord</a>
                     @using (Html.BeginUmbracoForm("SubmitLogout", "Login"))
                     {
                         <a id="logout-button" class="dropdown-item" href="#">Log ud</a>

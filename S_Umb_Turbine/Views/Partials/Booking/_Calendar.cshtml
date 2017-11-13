@@ -54,8 +54,31 @@
     <div id='calendar' class="calendar center-horizontal"></div>
 </div>
 
+<!-- Alerts -->
 
+<div id="create-success-alert" class="alert alert-success alert-dismissable collapse center-horizontal calendar-alert" role="alert">
+    <strong>Dit møde er blevet oprettet.</strong>
+</div>
 
+<div id="update-success-alert" class="alert alert-success alert-dismissable collapse center-horizontal calendar-alert" role="alert">
+    <strong>Dit møde er opdateret.</strong>
+</div>
+
+<div id="delete-success-alert" class="alert alert-success alert-dismissable collapse center-horizontal calendar-alert" role="alert">
+    <strong>Dit møde er slettet.</strong>
+</div>
+
+<div id="error-collision-alert" class="alert alert-danger alert-dismissable collapse center-horizontal calendar-alert" role="alert">
+    <strong>Dit møde kolliderer med at andet.</strong>
+</div>
+
+<div id="error-dates-alert" class="alert alert-danger alert-dismissable collapse center-horizontal calendar-alert" role="alert">
+    <strong>Der var problemer med at gemme datoerne. Genindlæs siden og prøv igen</strong>
+</div>
+
+<div id="exception-alert" class="alert alert-danger alert-dismissable collapse center-horizontal calendar-alert" role="alert">
+    <strong>Der opstod en ukendt fejl på serveren. Prøv igen</strong>
+</div>
 
 <!-- Modals -->
 @{ Html.RenderAction("RenderCreateBookingModal", "Booking"); }

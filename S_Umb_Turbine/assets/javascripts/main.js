@@ -208,15 +208,22 @@
                         data: postData,
                         success: function (data, textStatus, jqXHR) {
                             var parsedData2 = JSON.parse(data);
-                            $('#calendar').fullCalendar('renderEvent', parsedData2.booking);
-                            $('#create-booking-modal').modal('hide');
+                            if (parsedData2.status == "SUCCESS") {
+                                $('#create-success-alert').fadeIn().delay(5000).fadeOut();
+                                $('#calendar').fullCalendar('renderEvent', parsedData2.booking);
+                                $('#create-booking-modal').modal('hide');
+                            } else if (parsedData2.status == "ERROR") {
+                                $('#error-dates-alert').fadeIn().delay(5000).fadeOut();
+                            } else if (parsedData2.status == "EXCEPTION"){
+                                $('#exception-alert').fadeIn().delay(5000).fadeOut();
+                            }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
 
                         }
                     });
                 } else {
-                    console.log('Slot is reserved. Book at another time.');
+                    $('#error-collision-alert').fadeIn().delay(5000).fadeOut();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -249,17 +256,23 @@
                         data: postData,
                         success: function (data, textStatus, jqXHR) {
                             var parsedData2 = JSON.parse(data);
-                            console.log(parsedData2);
-                            $('#calendar').fullCalendar('removeEvents', [parsedData2.booking.id]);
-                            $('#calendar').fullCalendar('renderEvent', parsedData2.booking);
-                            $('#update-view-booking-modal').modal('hide');
+                            if (parsedData2.status == "SUCCESS") {
+                                $('#update-success-alert').fadeIn().delay(5000).fadeOut();
+                                $('#calendar').fullCalendar('removeEvents', [parsedData2.booking.id]);
+                                $('#calendar').fullCalendar('renderEvent', parsedData2.booking);
+                                $('#update-view-booking-modal').modal('hide');
+                            } else if (parsedData2.status == "ERROR"){
+                                $('#error-dates-alert').fadeIn().delay(5000).fadeOut();
+                            } else if (parsedData2.status == "EXCEPTION") {
+                                $('#exception-alert').fadeIn().delay(5000).fadeOut();
+                            }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log("Error...");
                         }
                     });
                 } else {
-                    console.log('Slot is reserved. Book at another time.');
+                    $('#error-collision-alert').fadeIn().delay(5000).fadeOut();
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -281,9 +294,14 @@
             data: postData,
             success: function (data, textStatus, jqXHR) {
                 var parsedData = JSON.parse(data);
-                $('#calendar').fullCalendar('removeEvents', [parsedData.message]);
-                $('#update-view-booking-modal').modal('hide');
-                $('#delete-view-booking-modal').modal('hide');
+                if (parsedData.status == "SUCCESS"){
+                    $('#delete-success-alert').fadeIn().delay(5000).fadeOut();
+                    $('#calendar').fullCalendar('removeEvents', [parsedData.message]);
+                    $('#update-view-booking-modal').modal('hide');
+                    $('#delete-view-booking-modal').modal('hide');
+                } else if (parsedData.status == "EXCEPTION"){
+                    $('#exception-alert').fadeIn().delay(5000).fadeOut();
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
 
@@ -303,6 +321,22 @@
             data: postData,
             success: function (data, textStatus, jqXHR) {
                 console.log(data);
+                var parsedData = JSON.parse(data);
+                if (parsedData.status == "SUCCESS") {
+                    $('#Password').val("");
+                    $('#PasswordRepeat').val("");
+                    $('#success-alert').fadeIn().delay(5000).fadeOut();
+                } else if (parsedData.status == "ERROR"){
+                    if (parsedData.message == "NOT LOGGED IN"){
+                        $('#error-not-logged-in-alert').fadeIn().delay(5000).fadeOut();
+                    } else if (parsedData.message == "NOT IDENTICAL OR EMPTY"){
+                        $('#error-unidentical-alert').fadeIn().delay(5000).fadeOut();
+                    } else if (parsedData.message == "NOT ENOUGH CHARACTERS") {
+                        $('#error-invalid-alert').fadeIn().delay(5000).fadeOut();
+                    }
+                } else if (parsedData.status == "EXCEPTION") {
+                    $('#exception-alert').fadeIn().delay(5000).fadeOut();
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
 
