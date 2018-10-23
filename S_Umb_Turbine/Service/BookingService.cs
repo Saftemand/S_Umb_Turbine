@@ -227,7 +227,7 @@ namespace S_Umb_Turbine.Service
                             BookingViewModel booking = new BookingViewModel();
                             booking.Id = reader["Id"].ToString();
                             booking.BookedById = reader["CreatedByMemberNodeId"].ToString();
-                            booking.BookedByName = umbracoHelper.TypedMember(booking.BookedById).Name;
+                            booking.BookedByName = umbracoHelper.TypedMember(booking.BookedById)?.Name ?? "Member Deleted";
                             booking.ConferenceRoomId = reader["ConferenceRoomNodeId"].ToString();
                             booking.ConferenceRoomName = umbracoHelper.TypedContent(booking.ConferenceRoomId).Name;
                             booking.StartTime = (DateTime)reader["startTime"];
